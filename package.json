@@ -22,6 +22,8 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.4",
+    "@heroui/theme": "^2.4.22",
     "@payloadcms/admin-bar": "3.55.1",
     "@payloadcms/db-mongodb": "3.55.1",
     "@payloadcms/live-preview-react": "3.55.1",
@@ -42,6 +44,7 @@
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "16.4.7",
+    "framer-motion": "^12.23.13",
     "geist": "^1.3.0",
     "graphql": "^16.8.2",
     "lucide-react": "^0.378.0",

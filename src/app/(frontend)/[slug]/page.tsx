@@ -1,40 +1,31 @@
 import type { Metadata } from 'next'
-
-import { PayloadRedirects } from '@/components/PayloadRedirects'
-import configPromise from '@payload-config'
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { Card, CardBody, Spacer } from '@heroui/react'
 import { draftMode } from 'next/headers'
+import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
+
+import type { Page as PageType } from '@/payload-types'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
+import { getCachedDocument } from '@/utilities/getDocument'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { PayloadRedirects } from '@/components/PayloadRedirects'
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const pages = await payload.find({
-    collection: 'pages',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  })
+  try {
+    const pages = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/pages?depth=0&draft=false&limit=1000`)
+      .then((res) => res.json())
+      .then((res) => res.docs || [])
 
-  const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .map(({ slug }) => {
-      return { slug }
-    })
-
-  return params
+    return pages.map((page: PageType) => ({
+      slug: page.slug,
+    }))
+  } catch (error) {
+    return []
+  }
 }
 
 type Args = {
@@ -44,67 +35,57 @@ type Args = {
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
-  const url = '/' + slug
+  const { isEnabled: isDraftMode } = await draftMode()
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
+  let page: PageType | null = null
 
-  page = await queryPageBySlug({
-    slug,
-  })
-
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
+  try {
+    page = await getCachedDocument('pages', slug)()
+  } catch (error) {
+    console.warn(`Failed to fetch page for slug: ${slug}`)
   }
 
   if (!page) {
-    return <PayloadRedirects url={url} />
+    return notFound()
   }
 
   const { hero, layout } = page
 
   return (
-    <article className="pt-16 pb-24">
-      <PageClient />
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
+    <article className="pb-24">
+      <PayloadRedirects disableNotFound url={`/${slug}`} />
 
-      {draft && <LivePreviewListener />}
+      {/* Hero Section */}
+      {hero && hero.type !== 'none' && (
+        <div className="w-full">
+          <RenderHero {...hero} />
+        </div>
+      )}
 
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      {/* Page Content */}
+      <div className="container mx-auto px-4 py-8">
+        {layout && layout.length > 0 && (
+          <Card className="w-full bg-transparent shadow-none">
+            <CardBody className="p-0">
+              <RenderBlocks blocks={layout} />
+            </CardBody>
+          </Card>
+        )}
+      </div>
+
+      <Spacer y={8} />
+
+      {isDraftMode && (
+        <LivePreviewListener serverURL={process.env.NEXT_PUBLIC_SERVER_URL || ''} />
+      )}
     </article>
   )
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = 'home' } = await paramsPromise
-  const page = await queryPageBySlug({
-    slug,
-  })
+  const page = await getCachedDocument('pages', slug)()
 
   return generateMeta({ doc: page })
 }
-
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-  })
-
-  return result.docs?.[0] || null
-})

@@ -1,15 +1,25 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect } from 'react'
 
-const PageClient: React.FC = () => {
-  /* Force the header to be dark mode while we have an image behind it */
-  const { setHeaderTheme } = useHeaderTheme()
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Card, CardBody, Spinner } from '@heroui/react'
+
+export default function PageClient() {
+  const router = useRouter()
 
   useEffect(() => {
-    setHeaderTheme('light')
-  }, [setHeaderTheme])
-  return <React.Fragment />
-}
+    // This component can be used for client-side functionality
+    // such as analytics, interactive elements, etc.
+  }, [])
 
-export default PageClient
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <Card>
+        <CardBody className="flex items-center gap-4">
+          <Spinner size="lg" />
+          <p>Loading page...</p>
+        </CardBody>
+      </Card>
+    </div>
+  )
+}
