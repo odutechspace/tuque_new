@@ -47,7 +47,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Payload Website Template',
+                  text: 'Tuque Consulting',
                   version: 1,
                 },
               ],
@@ -666,9 +666,9 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       },
     ],
     meta: {
-      description: 'An open-source website built with Payload and Next.js.',
+      description: 'Tuque Consulting: Kenya-proud business strategists guiding SMEs and corporations with expert services in company formation, tax planning, compliance, tech & data, and more. Get empowered, get global.',
       image: heroImage.id,
-      title: 'Payload Website Template',
+      title: 'Tuque Consulting',
     },
     title: 'Home',
   }
