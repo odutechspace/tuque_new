@@ -18,6 +18,7 @@ import { ConsultationSteps } from '@/components/_client/ConsultationSteps'
 import { Stats } from '@/components/_client/Stats'
 import { SubscribeCTA } from '@/components/_client/SubscribeCTA'
 import { Services } from '@/components/_client/Services'
+import Link from 'next/link'
 
 export default async function HomePage() {
   const { isEnabled: isDraftMode } = await draftMode()
@@ -48,6 +49,8 @@ export default async function HomePage() {
 
               <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Button
+                  as={Link}
+                  href={'tel:' + siteConfig.links.phone}
                   color="primary"
                   size="lg"
                   endContent={<ArrowUpRight />}
@@ -67,10 +70,34 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="col-span-3 text-center relative hidden md:block w-full h-full">
-              <Image className="absolute w-full h-full object-cover" src={'/images/bg/bg9.png'} width={200} height={200} alt={''} />
-              <Image className="absolute mx-auto bottom-[50%] left-[10%]" src={'/images/home/growth.jpg'} width={200} height={400} alt={''} />
-              <Image className="absolute left-[50%] transform -translate-x-[50%] bottom-[20%]" src={'/images/home/advisor.jpg'} width={200} height={400} alt={''} />
-              <Image className="absolute mx-auto right-[10%] bottom-[50%]" src={'/images/home/decision.jpg'} width={200} height={400} alt={''} />
+              <Image
+                className="absolute w-full h-full object-cover"
+                src={'/images/bg/bg9.png'}
+                width={200}
+                height={200}
+                alt={''}
+              />
+              <Image
+                className="absolute mx-auto bottom-[50%] left-[10%]"
+                src={'/images/home/growth.jpg'}
+                width={200}
+                height={400}
+                alt={''}
+              />
+              <Image
+                className="absolute left-[50%] transform -translate-x-[50%] bottom-[20%]"
+                src={'/images/home/advisor.jpg'}
+                width={200}
+                height={400}
+                alt={''}
+              />
+              <Image
+                className="absolute mx-auto right-[10%] bottom-[50%]"
+                src={'/images/home/decision.jpg'}
+                width={200}
+                height={400}
+                alt={''}
+              />
             </div>
           </div>
         </section>
@@ -114,6 +141,8 @@ export default async function HomePage() {
                 company formation to strategic tax planning and beyond.
               </p>
               <Button
+                as={Link}
+                href={'/about'}
                 color="primary"
                 size="lg"
                 endContent={<ArrowUpRight />}
@@ -174,12 +203,14 @@ export default async function HomePage() {
                 Tuque Tukuze Bizna PAMOJA.
               </Chip>
               <Button
+                as={Link}
+                href={"/contact"}
                 color="primary"
                 size="lg"
                 endContent={<ArrowUpRight />}
                 className="w-full md:w-fit  font-bold"
               >
-                View Our Story
+                Get in Touch
               </Button>
             </div>
 
