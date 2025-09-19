@@ -11,7 +11,6 @@ function HeroUIThemeWrapper({ children }: { children: React.ReactNode }) {
   
   return (
     <HeroUIProvider
-      theme={theme === 'dark' ? 'dark' : 'light'}
       className={theme === 'dark' ? 'dark' : 'light'}
     >
       {children}

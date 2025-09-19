@@ -75,11 +75,11 @@ export default async function Post({ params: paramsPromise }: Args) {
           {/* Post Header */}
           <div className="w-full mb-8">
             <div className="p-2 bg-gray-100 min-h-[500px] rounded-xl">
-              {post.heroImage && typeof post.heroImage !== 'string' && (
+              {post.thumbnail && typeof post.thumbnail !== 'string' && (
                 <Image
-                  alt={post.heroImage.alt || post.title}
+                  alt={post.thumbnail?.alt || post.title}
                   className="w-full object-cover rounded-xl"
-                  src={post.heroImage.url || ''}
+                  src={post.thumbnail?.url || ''}
                   width={1200}
                   height={600}
                 />
@@ -164,12 +164,12 @@ export default async function Post({ params: paramsPromise }: Args) {
                         {/*  </p>*/}
                         {/*)}*/}
                       </div>
-                      <Image
-                        src={relatedPost?.heroImage}
-                        alt={relatedPost.title}
-                        width={100}
-                        height={70}
-                      />
+                      {/*<Image*/}
+                      {/*  src={relatedPost?.thumbnail}*/}
+                      {/*  alt={relatedPost.title}*/}
+                      {/*  width={100}*/}
+                      {/*  height={70}*/}
+                      {/*/>*/}
                     </div>
                   ) : null,
                 )}

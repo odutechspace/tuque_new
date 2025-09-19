@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import { Button, Input, Textarea } from '@heroui/react'
 import React, { useState } from 'react'
@@ -11,46 +11,46 @@ const ContactForm = () => {
     email: '',
     phoneNumber: '',
     message: '',
-  });
+  })
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [statusMessage, setStatusMessage] = useState('')
+  const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e: any) => {
+    const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setStatusMessage('');
-    setIsSuccess(false);
+  const handleSubmit = async (e: any) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setStatusMessage('')
+    setIsSuccess(false)
 
     try {
-      await submitContactForm(formData);
+      await submitContactForm(formData)
 
-      setStatusMessage('Thank you for your message! We will be in touch shortly.');
-      setIsSuccess(true);
+      setStatusMessage('Thank you for your message! We will be in touch shortly.')
+      setIsSuccess(true)
       setFormData({
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
         message: '',
-      });
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setStatusMessage(error.message || 'An unexpected error occurred. Please try again.');
-      setIsSuccess(false);
+      })
+    } catch (error: any) {
+      console.error('Error submitting form:', error)
+      setStatusMessage(error.message || 'An unexpected error occurred. Please try again.')
+      setIsSuccess(false)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -112,13 +112,12 @@ const ContactForm = () => {
         color="primary"
         size="lg"
         disabled={isLoading}
-
         className="w-full font-semibold"
       >
         {isLoading ? 'Sending...' : 'Send Message'}
       </Button>
     </form>
-  );
+  )
 }
 
-export default ContactForm;
+export default ContactForm
