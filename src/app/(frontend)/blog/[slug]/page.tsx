@@ -7,11 +7,12 @@ import React from 'react'
 
 import type { Post } from '@/payload-types'
 
-import { RichText } from '@/components/RichText'
+import RichText from '@/components/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedDocument } from '@/utilities/getDocument'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { getLatestPosts } from '@/utilities/getLatestPosts'
 
 export async function generateStaticParams() {
   try {
@@ -37,13 +38,21 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const { isEnabled: isDraftMode } = await draftMode()
 
+  const latestPosts = await getLatestPosts(3)
+
+  if (latestPosts) {
+    console.log("latestPosts: ", latestPosts);
+  }
+
   let post: Post | null = null
 
   try {
-    post = await getCachedDocument('posts', slug)()
+    post = await getCachedDocument('posts', slug)();
+    console.log(post);
   } catch (error) {
     console.warn(`Failed to fetch post for slug: ${slug}`)
   }
+
 
   if (!post) {
     return notFound()
@@ -79,7 +88,7 @@ export default async function Post({ params: paramsPromise }: Args) {
               />
             )}
           </CardHeader>
-          
+
           <CardBody className="px-8 py-6">
             {/* Categories */}
             <div className="flex flex-wrap gap-2 mb-4">

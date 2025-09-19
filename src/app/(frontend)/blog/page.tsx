@@ -4,7 +4,6 @@ import React from 'react'
 
 import type { Post } from '@/payload-types'
 
-import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
@@ -23,9 +22,9 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const searchParams = await searchParamsPromise
   const page = parseInt(searchParams?.page || '1', 10)
 
-  const payload = await getPayload({ config: configPromise })
+  const payload = await getPayload({ config: configPromise });
 
-  const posts = await payload.find({
+  const posts: any = await payload.find({
     collection: 'posts',
     depth: 1,
     limit: 12,
@@ -34,12 +33,15 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     select: {
       title: true,
       slug: true,
-      categories: true,
       meta: true,
       publishedAt: true,
       populatedAuthors: true,
+      thumbnail: true,
+      tags: true,
     },
-  })
+  });
+
+  console.log(posts);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -54,20 +56,21 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {/* Featured Posts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {posts.docs?.map((post: Post) => (
-          <Card key={post.id} className="w-full h-full hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-0 pt-4 px-4">
-              {post.meta?.image && typeof post.meta.image !== 'string' && (
+          <Card key={post.id} className="w-full h-full hover:shadow-lg transition-shadow border-2 border-green-500">
+            <CardHeader className="border border-red-500  h-[300px] w-full">
+              {post.thumbnail && (
                 <Image
-                  alt={post.meta.image.alt || post.title}
-                  className="w-full object-cover rounded-xl"
-                  src={post.meta.image.url || ''}
+                  alt={post.thumbnail?.alt || post.title}
+                  className="w-full object-cover rounded-x border-2 border-blue-500"
+                 /* src={post.meta.image.url || ''}*/
+                  src={post?.thumbnail?.url || ''}
                   width={400}
                   height={200}
                 />
               )}
             </CardHeader>
             <CardBody className="px-4 py-4">
-              <div className="flex flex-wrap gap-2 mb-3">
+              {/*<div className="flex flex-wrap gap-2 mb-3">
                 {post.categories?.map((category) =>
                   typeof category === 'object' ? (
                     <Chip key={category.id} size="sm" variant="flat">
@@ -75,20 +78,20 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
                     </Chip>
                   ) : null
                 )}
-              </div>
-              
+              </div>*/}
+
               <Link href={`/blog/${post.slug}`} className="block">
                 <h2 className="text-xl font-semibold mb-2 line-clamp-2 hover:text-primary">
                   {post.title}
                 </h2>
               </Link>
-              
+
               {post.meta?.description && (
                 <p className="text-gray-600 text-sm line-clamp-3 mb-4">
                   {post.meta.description}
                 </p>
               )}
-              
+
               <div className="flex items-center justify-between text-sm text-gray-500">
                 {post.populatedAuthors && post.populatedAuthors.length > 0 && (
                   <span>By {post.populatedAuthors[0]?.name}</span>
@@ -110,7 +113,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
           limit={12}
           totalDocs={posts.totalDocs}
         />
-        
+
         <Pagination
           page={posts.page}
           totalPages={posts.totalPages}

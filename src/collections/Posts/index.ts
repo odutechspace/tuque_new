@@ -75,15 +75,31 @@ export const Posts: CollectionConfig<'posts'> = {
       required: true,
     },
     {
+      name: 'thumbnail',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'tags',
+      type: 'array',
+      label: 'Tags',
+      admin: {
+        position: 'sidebar',
+      },
+      fields: [
+        {
+          name: 'tag',
+          type: 'text',
+          label: 'Tag',
+          required: true,
+        },
+      ],
+    },
+    {
       type: 'tabs',
       tabs: [
         {
           fields: [
-            {
-              name: 'heroImage',
-              type: 'upload',
-              relationTo: 'media',
-            },
             {
               name: 'content',
               type: 'richText',

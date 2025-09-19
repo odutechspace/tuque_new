@@ -1,20 +1,19 @@
-import type { Metadata } from 'next'
-import { Card, CardBody, Spacer, Button, Input, Textarea, Select, SelectItem } from '@heroui/react'
+import { Card, CardBody, Spacer, Button, Input, Textarea } from '@heroui/react'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 
 import type { Page as PageType } from '@/payload-types'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
-import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedDocument } from '@/utilities/getDocument'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { submitContactForm } from '@/app/service/contact-form.service'
+import { Metadata } from 'next'
+import ContactForm from '@/components/ContactUs/ContactForm'
 
 export default async function ContactPage() {
-  const { isEnabled: isDraftMode } = await draftMode()
+  const { isEnabled: isDraftMode } = await draftMode();
 
   let page: PageType | null = null
 
@@ -91,67 +90,7 @@ export default async function ContactPage() {
 
                   <Card>
                     <CardBody className="p-8">
-                      <form className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <Input
-                            label="First Name"
-                            placeholder="Enter your first name"
-                            isRequired
-                            variant="bordered"
-                          />
-                          <Input
-                            label="Last Name"
-                            placeholder="Enter your last name"
-                            isRequired
-                            variant="bordered"
-                          />
-                        </div>
-
-                        <Input
-                          label="Email Address"
-                          placeholder="Enter your email"
-                          type="email"
-                          isRequired
-                          variant="bordered"
-                        />
-
-                        <Input
-                          label="Phone Number"
-                          placeholder="Enter your phone number"
-                          type="tel"
-                          variant="bordered"
-                        />
-
-                        {/*<Select*/}
-                        {/*  label="Subject"*/}
-                        {/*  placeholder="Select a subject"*/}
-                        {/*  isRequired*/}
-                        {/*  variant="bordered"*/}
-                        {/*>*/}
-                        {/*  <SelectItem key="general">General Inquiry</SelectItem>*/}
-                        {/*  <SelectItem key="support">Support Request</SelectItem>*/}
-                        {/*  <SelectItem key="sales">Sales Question</SelectItem>*/}
-                        {/*  <SelectItem key="partnership">Partnership</SelectItem>*/}
-                        {/*  <SelectItem key="other">Other</SelectItem>*/}
-                        {/*</Select>*/}
-
-                        <Textarea
-                          label="Message"
-                          placeholder="Tell us how we can help you..."
-                          isRequired
-                          variant="bordered"
-                          minRows={5}
-                        />
-
-                        <Button
-                          type="submit"
-                          color="primary"
-                          size="lg"
-                          className="w-full font-semibold"
-                        >
-                          Send Message
-                        </Button>
-                      </form>
+                      <ContactForm />
                     </CardBody>
                   </Card>
                 </div>
