@@ -11,11 +11,25 @@ async function getDocument(collection: Collection, slug: string, depth = 0) {
 
   const page = await payload.find({
     collection,
-    depth,
+    depth: 1,
     where: {
       slug: {
         equals: slug,
       },
+    },
+    select: {
+      title: true,
+      slug: true,
+      content: true,
+      thumbnail: true,
+      tags: true,
+      relatedPosts: true,
+      categories: true,
+      meta: true,
+      authors: true,
+      populatedAuthors: true,
+      publishedAt: true,
+      heroImage: true,
     },
   })
 

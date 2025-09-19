@@ -71,6 +71,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    'contact-form': ContactForm;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -87,6 +88,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'contact-form': ContactFormSelect<false> | ContactFormSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -214,7 +216,13 @@ export interface Page {
 export interface Post {
   id: string;
   title: string;
-  heroImage?: (string | null) | Media;
+  thumbnail?: (string | null) | Media;
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
   content: {
     root: {
       type: string;
@@ -736,6 +744,20 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-form".
+ */
+export interface ContactForm {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber?: string | null;
+  message: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -922,6 +944,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'contact-form';
+        value: string | ContactForm;
       } | null)
     | ({
         relationTo: 'users';
@@ -1130,7 +1156,13 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
-  heroImage?: T;
+  thumbnail?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
   content?: T;
   relatedPosts?: T;
   categories?: T;
@@ -1265,6 +1297,19 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-form_select".
+ */
+export interface ContactFormSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  phoneNumber?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
 }
