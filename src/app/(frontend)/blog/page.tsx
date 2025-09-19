@@ -65,11 +65,11 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         {posts.docs?.map((post: Post) => (
           <div key={post.id} className="w-full h-full cursor-pointer">
             <div className="flex w-full overflow-hidden rounded-xl">
-              {post.thumbnail && (
+              {post.thumbnail && typeof post.thumbnail !== 'string' && (
                 <Image
-                  alt={post.thumbnail?.alt || post.title}
+                  alt={post.thumbnail.alt || post.title}
                   className="w-full h-[300px] md:h-auto object-cover rounded-x transform transition duration-300 hover:scale-110 hover:-rotate-[-4deg]"
-                  src={post?.thumbnail?.url || ''}
+                  src={post.thumbnail.url || ''}
                   width={1000}
                   height={350}
                 />
