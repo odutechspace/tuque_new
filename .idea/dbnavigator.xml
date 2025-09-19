@@ -7,11 +7,20 @@
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants />
   </component>
+  <component name="DBNavigator.Project.DatabaseBrowserManager">
+    <autoscroll-to-editor value="false" />
+    <autoscroll-from-editor value="true" />
+    <show-object-properties value="true" />
+    <loaded-nodes />
+  </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.ParserDiagnosticsManager">
+    <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections />
@@ -21,7 +30,6 @@
         <navigation-history-size value="100" />
         <show-object-details value="false" />
         <enable-sticky-paths value="true" />
-        <enable-quick-filters value="false" />
       </general>
       <filters>
         <object-type-filter>
@@ -32,7 +40,6 @@
           <object-type name="CHARSET" enabled="true" />
           <object-type name="TABLE" enabled="true" />
           <object-type name="VIEW" enabled="true" />
-          <object-type name="JSON_VIEW" enabled="true" />
           <object-type name="MATERIALIZED_VIEW" enabled="true" />
           <object-type name="NESTED_TABLE" enabled="true" />
           <object-type name="COLUMN" enabled="true" />
@@ -48,15 +55,9 @@
           <object-type name="TYPE" enabled="true" />
           <object-type name="TYPE_ATTRIBUTE" enabled="true" />
           <object-type name="ARGUMENT" enabled="true" />
-          <object-type name="JAVA_CLASS" enabled="true" />
-          <object-type name="JAVA_FIELD" enabled="true" />
-          <object-type name="JAVA_METHOD" enabled="true" />
-          <object-type name="JAVA_RESOURCE" enabled="true" />
           <object-type name="DIMENSION" enabled="true" />
           <object-type name="CLUSTER" enabled="true" />
           <object-type name="DBLINK" enabled="true" />
-          <object-type name="CREDENTIAL" enabled="true" />
-          <object-type name="AI_PROFILE" enabled="true" />
         </object-type-filter>
       </filters>
       <sorting>
@@ -82,7 +83,6 @@
           <object-type name="CHARSET" enabled="false" />
           <object-type name="TABLE" enabled="true" />
           <object-type name="VIEW" enabled="true" />
-          <object-type name="JSON VIEW" enabled="true" />
           <object-type name="MATERIALIZED VIEW" enabled="true" />
           <object-type name="INDEX" enabled="true" />
           <object-type name="CONSTRAINT" enabled="true" />
@@ -94,16 +94,9 @@
           <object-type name="FUNCTION" enabled="true" />
           <object-type name="PACKAGE" enabled="true" />
           <object-type name="TYPE" enabled="true" />
-          <object-type name="JAVA CLASS" enabled="true" />
-          <object-type name="INNER CLASS" enabled="true" />
-          <object-type name="JAVA FIELD" enabled="true" />
-          <object-type name="JAVA METHOD" enabled="true" />
-          <object-type name="JAVA PARAMETER" enabled="true" />
-          <object-type name="JAVA RESOURCE" enabled="true" />
           <object-type name="DIMENSION" enabled="false" />
           <object-type name="CLUSTER" enabled="false" />
           <object-type name="DBLINK" enabled="false" />
-          <object-type name="CREDENTIAL" enabled="false" />
         </lookup-objects>
         <force-database-load value="false" />
         <prompt-connection-selection value="true" />
@@ -152,7 +145,6 @@
       <qualified-text-editor text-length-threshold="300">
         <content-types>
           <content-type name="Text" enabled="true" />
-          <content-type name="Properties" enabled="true" />
           <content-type name="XML" enabled="true" />
           <content-type name="DTD" enabled="true" />
           <content-type name="HTML" enabled="true" />
@@ -198,7 +190,6 @@
           <user-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
-            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -212,11 +203,11 @@
             <filter-element type="OBJECT" id="dimension" selected="true" />
             <filter-element type="OBJECT" id="cluster" selected="true" />
             <filter-element type="OBJECT" id="dblink" selected="true" />
+            <filter-element type="OBJECT" id="unknown" selected="true" />
           </user-schema>
           <public-schema>
             <filter-element type="OBJECT" id="table" selected="false" />
             <filter-element type="OBJECT" id="view" selected="false" />
-            <filter-element type="OBJECT" id="json view" selected="false" />
             <filter-element type="OBJECT" id="materialized view" selected="false" />
             <filter-element type="OBJECT" id="index" selected="false" />
             <filter-element type="OBJECT" id="constraint" selected="false" />
@@ -230,11 +221,11 @@
             <filter-element type="OBJECT" id="dimension" selected="false" />
             <filter-element type="OBJECT" id="cluster" selected="false" />
             <filter-element type="OBJECT" id="dblink" selected="false" />
+            <filter-element type="OBJECT" id="unknown" selected="false" />
           </public-schema>
           <any-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
-            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -248,6 +239,7 @@
             <filter-element type="OBJECT" id="dimension" selected="true" />
             <filter-element type="OBJECT" id="cluster" selected="true" />
             <filter-element type="OBJECT" id="dblink" selected="true" />
+            <filter-element type="OBJECT" id="unknown" selected="true" />
           </any-schema>
         </basic-filter>
         <extended-filter>
@@ -263,7 +255,6 @@
           <user-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
-            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -277,11 +268,11 @@
             <filter-element type="OBJECT" id="dimension" selected="true" />
             <filter-element type="OBJECT" id="cluster" selected="true" />
             <filter-element type="OBJECT" id="dblink" selected="true" />
+            <filter-element type="OBJECT" id="unknown" selected="true" />
           </user-schema>
           <public-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
-            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -295,11 +286,11 @@
             <filter-element type="OBJECT" id="dimension" selected="true" />
             <filter-element type="OBJECT" id="cluster" selected="true" />
             <filter-element type="OBJECT" id="dblink" selected="true" />
+            <filter-element type="OBJECT" id="unknown" selected="true" />
           </public-schema>
           <any-schema>
             <filter-element type="OBJECT" id="table" selected="true" />
             <filter-element type="OBJECT" id="view" selected="true" />
-            <filter-element type="OBJECT" id="json view" selected="true" />
             <filter-element type="OBJECT" id="materialized view" selected="true" />
             <filter-element type="OBJECT" id="index" selected="true" />
             <filter-element type="OBJECT" id="constraint" selected="true" />
@@ -313,6 +304,7 @@
             <filter-element type="OBJECT" id="dimension" selected="true" />
             <filter-element type="OBJECT" id="cluster" selected="true" />
             <filter-element type="OBJECT" id="dblink" selected="true" />
+            <filter-element type="OBJECT" id="unknown" selected="true" />
           </any-schema>
         </extended-filter>
       </filters>
@@ -322,7 +314,7 @@
         <sorting-element type="OBJECT" id="column" />
         <sorting-element type="OBJECT" id="table" />
         <sorting-element type="OBJECT" id="view" />
-        <sorting-element type="OBJECT" id="json view" />
+        <sorting-element type="OBJECT" id="unknown" />
         <sorting-element type="OBJECT" id="materialized view" />
         <sorting-element type="OBJECT" id="index" />
         <sorting-element type="OBJECT" id="constraint" />
@@ -399,7 +391,6 @@
         <mapping file-type-id="TYPE" extensions="tpe" />
         <mapping file-type-id="TYPE_SPEC" extensions="tps" />
         <mapping file-type-id="TYPE_BODY" extensions="tpb" />
-        <mapping file-type-id="JAVA_SOURCE" extensions="sql" />
       </extensions>
       <general>
         <lookup-ddl-files value="true" />
@@ -409,11 +400,6 @@
         <make-scripts-rerunnable value="true" />
       </general>
     </ddl-file-settings>
-    <assistant-settings>
-      <credential-settings>
-        <credentials />
-      </credential-settings>
-    </assistant-settings>
     <general-settings>
       <regional-settings>
         <date-format value="MEDIUM" />

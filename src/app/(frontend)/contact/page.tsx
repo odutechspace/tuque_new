@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
-import { Button, Card, CardBody, Input, Spacer, Textarea } from '@heroui/react'
+import { Button, Card, CardBody, Spacer, Input, Textarea, Select, SelectItem } from '@heroui/react'
 import { draftMode } from 'next/headers'
-import React from 'react'
+import { notFound } from 'next/navigation'
+import React, { useState } from 'react'
+
 import { Mail, MapPin, Phone } from 'lucide-react'
+
 
 import type { Page as PageType } from '@/payload-types'
 
@@ -10,11 +13,14 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { getCachedDocument } from '@/utilities/getDocument'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { submitContactForm } from '@/app/service/contact-form.service'
+import { Metadata } from 'next'
+import ContactForm from '@/components/ContactUs/ContactForm'
 import { siteConfig } from '@/config/site'
 import { ContactFAQ } from '@/components/_client/ContactFAQ'
 
 export default async function ContactPage() {
-  const { isEnabled: isDraftMode } = await draftMode()
+  const { isEnabled: isDraftMode } = await draftMode();
 
   let page: PageType | null = null
 
@@ -100,67 +106,7 @@ export default async function ContactPage() {
 
                   <Card>
                     <CardBody className="p-8">
-                      <form className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <Input
-                            label="First Name"
-                            placeholder="Enter your first name"
-                            isRequired
-                            variant="bordered"
-                          />
-                          <Input
-                            label="Last Name"
-                            placeholder="Enter your last name"
-                            isRequired
-                            variant="bordered"
-                          />
-                        </div>
-
-                        <Input
-                          label="Email Address"
-                          placeholder="Enter your email"
-                          type="email"
-                          isRequired
-                          variant="bordered"
-                        />
-
-                        <Input
-                          label="Phone Number"
-                          placeholder="Enter your phone number"
-                          type="tel"
-                          variant="bordered"
-                        />
-
-                        {/*<Select*/}
-                        {/*  label="Subject"*/}
-                        {/*  placeholder="Select a subject"*/}
-                        {/*  isRequired*/}
-                        {/*  variant="bordered"*/}
-                        {/*>*/}
-                        {/*  <SelectItem key="general">General Inquiry</SelectItem>*/}
-                        {/*  <SelectItem key="support">Support Request</SelectItem>*/}
-                        {/*  <SelectItem key="sales">Sales Question</SelectItem>*/}
-                        {/*  <SelectItem key="partnership">Partnership</SelectItem>*/}
-                        {/*  <SelectItem key="other">Other</SelectItem>*/}
-                        {/*</Select>*/}
-
-                        <Textarea
-                          label="Message"
-                          placeholder="Tell us how we can help you..."
-                          isRequired
-                          variant="bordered"
-                          minRows={5}
-                        />
-
-                        <Button
-                          type="submit"
-                          color="primary"
-                          size="lg"
-                          className="w-full font-semibold"
-                        >
-                          Send Message
-                        </Button>
-                      </form>
+                      <ContactForm />
                     </CardBody>
                   </Card>
                 </div>
@@ -168,43 +114,6 @@ export default async function ContactPage() {
             </div>
           </div>
         </section>
-
-        {/*/!* FAQ Section *!/*/}
-        {/*<section className="bg-gray-50 py-20">*/}
-        {/*  <div className="container mx-auto px-4">*/}
-        {/*    <div className="max-w-4xl mx-auto text-center">*/}
-        {/*      <h2 className="text-4xl font-bold mb-8">Frequently Asked Questions</h2>*/}
-
-        {/*      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">*/}
-        {/*        {[*/}
-        {/*          {*/}
-        {/*            question: 'How quickly do you respond?',*/}
-        {/*            answer: 'We typically respond within 24 hours during business days.',*/}
-        {/*          },*/}
-        {/*          {*/}
-        {/*            question: 'Do you offer phone support?',*/}
-        {/*            answer: 'Yes, phone support is available during business hours.',*/}
-        {/*          },*/}
-        {/*          {*/}
-        {/*            question: 'Can I schedule a consultation?',*/}
-        {/*            answer: 'Absolutely! Mention your preferred time in your message.',*/}
-        {/*          },*/}
-        {/*          {*/}
-        {/*            question: 'Do you work with international clients?',*/}
-        {/*            answer: 'Yes, we work with clients globally across different time zones.',*/}
-        {/*          },*/}
-        {/*        ].map((faq, index) => (*/}
-        {/*          <Card key={index} className="text-left">*/}
-        {/*            <CardBody className="p-6">*/}
-        {/*              <h3 className="font-semibold mb-3 text-lg">{faq.question}</h3>*/}
-        {/*              <p className="text-gray-600 dark:text-gray-300">{faq.answer}</p>*/}
-        {/*            </CardBody>*/}
-        {/*          </Card>*/}
-        {/*        ))}*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</section>*/}
 
         {/* FAQ Section */}
         <section className="py-20 bg-secondary/20">

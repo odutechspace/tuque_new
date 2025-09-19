@@ -7,11 +7,12 @@ import React from 'react'
 
 import type { Post } from '@/payload-types'
 
+import RichText from '@/components/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getCachedDocument } from '@/utilities/getDocument'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import RichText from '@/components/RichText'
+import { getLatestPosts } from '@/utilities/getLatestPosts'
 
 export async function generateStaticParams() {
   try {
@@ -37,18 +38,25 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   const { isEnabled: isDraftMode } = await draftMode()
 
+  const latestPosts = await getLatestPosts(3)
+
+  if (latestPosts) {
+    console.log("latestPosts: ", latestPosts);
+  }
+
   let post: Post | null = null
 
   try {
-    post = await getCachedDocument('posts', slug)() as Post
-  } catch (_error) {
+    post = await getCachedDocument('posts', slug)();
+    console.log(post);
+  } catch (error) {
     console.warn(`Failed to fetch post for slug: ${slug}`)
   }
+
 
   if (!post) {
     return notFound()
   }
-
 
   return (
     <article className="pb-24">
@@ -116,7 +124,7 @@ export default async function Post({ params: paramsPromise }: Args) {
         <Card className="w-full">
           <CardBody className="px-8 py-8">
             <div className="prose prose-lg max-w-none">
-              {post.content && <RichText data={post.content} enableGutter={false} />}
+              {post.content && <RichText content={post.content} enableGutter={false} />}
             </div>
           </CardBody>
         </Card>
@@ -152,7 +160,6 @@ export default async function Post({ params: paramsPromise }: Args) {
       </div>
 
       {isDraftMode && (
-        // @ts-expect-error server
         <LivePreviewListener serverURL={process.env.NEXT_PUBLIC_SERVER_URL || ''} />
       )}
     </article>
@@ -161,7 +168,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const post = await getCachedDocument('posts', slug)() as Post
+  const post = await getCachedDocument('posts', slug)()
 
   return generateMeta({ doc: post })
 }
