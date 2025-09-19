@@ -43,33 +43,35 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
   console.log(posts);
 
+  const formattedDate = (date: Date) => new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Blog Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Blog</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Discover insights, tutorials, and stories from our team
-        </p>
       </div>
 
       {/* Featured Posts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {posts.docs?.map((post: Post) => (
-          <Card key={post.id} className="w-full h-full hover:shadow-lg transition-shadow border-2 border-green-500">
-            <CardHeader className="border border-red-500  h-[300px] w-full">
+          <div key={post.id} className="w-full h-full cursor-pointer">
+            <div className="flex w-full overflow-hidden rounded-xl">
               {post.thumbnail && (
                 <Image
                   alt={post.thumbnail?.alt || post.title}
-                  className="w-full object-cover rounded-x border-2 border-blue-500"
-                 /* src={post.meta.image.url || ''}*/
+                  className="w-full h-[300px] md:h-auto object-cover rounded-x transform transition duration-300 hover:scale-110 hover:-rotate-[-4deg]"
                   src={post?.thumbnail?.url || ''}
-                  width={400}
-                  height={200}
+                  width={1000}
+                  height={350}
                 />
               )}
-            </CardHeader>
-            <CardBody className="px-4 py-4">
+            </div>
+            <div className="">
               {/*<div className="flex flex-wrap gap-2 mb-3">
                 {post.categories?.map((category) =>
                   typeof category === 'object' ? (
@@ -80,8 +82,18 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
                 )}
               </div>*/}
 
+              {post?.tags?.length > 0 && (
+                <ul className="flex flex-row gap-2 flex-wrap mt-[25px] mb-[10px] p-0 list-none">
+                  {post?.tags?.map((tag) => (
+                    <li key={tag.id} className="p-2 bg-blue-700 rounded-lg text-[#081a4e] bg-[#7977c633]">
+                      {tag.tag}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
               <Link href={`/blog/${post.slug}`} className="block">
-                <h2 className="text-xl font-semibold mb-2 line-clamp-2 hover:text-primary">
+                <h2 className="text-2xl font-semibold mb-2 line-clamp-2 text-[#161540]">
                   {post.title}
                 </h2>
               </Link>
@@ -97,11 +109,11 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
                   <span>By {post.populatedAuthors[0]?.name}</span>
                 )}
                 {post.publishedAt && (
-                  <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                  <span className="text-medium">Tuque Insights | {formattedDate(new Date(post.publishedAt))}</span>
                 )}
               </div>
-            </CardBody>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
 
