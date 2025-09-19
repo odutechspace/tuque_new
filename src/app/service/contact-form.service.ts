@@ -6,7 +6,7 @@ export const submitContactForm = async (formData: {
   message: string;
 }) => {
   try {
-    const response = await fetch(`${proccess.env.NEXT_PUBLIC_SERVER_URL}/api/contact-form`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/contact-form`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
