@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
-import { SearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/config/site'
 
@@ -18,7 +17,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
-  const [navItems, setNavItems] = useState(siteConfig.navMenuItems);
+  const [navItems, setNavItems] = useState(siteConfig.navMenuItems)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
 
@@ -46,7 +45,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           <Logo loading="eager" priority="high" className="" />
         </Link>
 
-        <nav className="flex gap-3 items-center">
+        <nav className="gap-3 items-center hidden md:flex">
           {navItems.map((item, i) => {
             const { name, path } = item
             return (

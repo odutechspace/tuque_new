@@ -13,8 +13,14 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
-import './globals.css'
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import './globals.css';
+
 import { getServerSideURL } from '@/utilities/getURL'
+import { FooterClient } from '@/Footer/FooterClient'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -23,8 +29,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        {/*<link href="/favicon.ico" rel="icon" sizes="32x32" />*/}
+        <link href="/favicon.png" rel="icon" type="image/png" />
       </head>
       <body>
         <Providers>
@@ -36,7 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
           <Header />
           {children}
-          <Footer />
+          <FooterClient />
         </Providers>
       </body>
     </html>

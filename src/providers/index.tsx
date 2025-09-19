@@ -1,17 +1,32 @@
+'use client'
+
 import React from 'react'
 import { HeroUIProvider } from '@heroui/react'
 
 import { HeaderThemeProvider } from './HeaderTheme'
-import { ThemeProvider } from './Theme'
+import { ThemeProvider, useTheme } from './Theme'
+
+function HeroUIThemeWrapper({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+  
+  return (
+    <HeroUIProvider
+      theme={theme === 'dark' ? 'dark' : 'light'}
+      className={theme === 'dark' ? 'dark' : 'light'}
+    >
+      {children}
+    </HeroUIProvider>
+  )
+}
 
 export const Providers: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
   return (
-    <HeroUIProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <HeroUIThemeWrapper>
         <HeaderThemeProvider>{children}</HeaderThemeProvider>
-      </ThemeProvider>
-    </HeroUIProvider>
+      </HeroUIThemeWrapper>
+    </ThemeProvider>
   )
 }
