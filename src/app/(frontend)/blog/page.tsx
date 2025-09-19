@@ -147,3 +147,6 @@ export function generateMetadata(): Metadata {
     description: 'Read our latest blog posts and insights',
   }
 }
+
+
+// tuque
