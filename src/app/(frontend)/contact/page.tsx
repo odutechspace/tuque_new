@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
-import { Button, Card, CardBody, Spacer, Input, Textarea, Select, SelectItem } from '@heroui/react'
+import { Card, CardBody, Spacer } from '@heroui/react'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Mail, MapPin, Phone } from 'lucide-react'
-
 
 import type { Page as PageType } from '@/payload-types'
 
@@ -13,14 +11,12 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { getCachedDocument } from '@/utilities/getDocument'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
-import { submitContactForm } from '@/app/service/contact-form.service'
-import { Metadata } from 'next'
 import ContactForm from '@/components/ContactUs/ContactForm'
 import { siteConfig } from '@/config/site'
 import { ContactFAQ } from '@/components/_client/ContactFAQ'
 
 export default async function ContactPage() {
-  const { isEnabled: isDraftMode } = await draftMode();
+  const { isEnabled: isDraftMode } = await draftMode()
 
   let page: PageType | null = null
 
@@ -57,7 +53,9 @@ export default async function ContactPage() {
                   <div className="p-6 bg-primary-50 dark:bg-primary-50/10 rounded-xl">
                     <h3 className="text-xl font-semibold mb-4">Office Hours</h3>
                     <div className="space-y-2 text-gray-600 dark:text-gray-300">
-                      <p><strong>Monday - Friday</strong></p>
+                      <p>
+                        <strong>Monday - Friday</strong>
+                      </p>
                       <p>9:00 AM - 5:00 PM</p>
                       {/*<p>*/}
                       {/*  <strong>Saturday:</strong> 10:00 AM - 4:00 PM*/}
@@ -84,11 +82,15 @@ export default async function ContactPage() {
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
                         <Mail className="w-5 h-5 text-primary" />
-                        <p className="text-gray-600 dark:text-gray-300">Email: {siteConfig.links.email}</p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          Email: {siteConfig.links.email}
+                        </p>
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="w-5 h-5 text-primary" />
-                        <p className="text-gray-600 dark:text-gray-300">Phone: {siteConfig.links.phone}</p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          Phone: {siteConfig.links.phone}
+                        </p>
                       </div>
                       <div className="flex items-start gap-3">
                         <MapPin className="w-5 h-5 text-primary mt-0.5" />
@@ -122,7 +124,8 @@ export default async function ContactPage() {
               <p className="border-t-2 inline-block w-fit border-secondary pt-2 pb-4">FAQ</p>
               <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
               <p className="text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
-                Find answers to the most common questions about our services and how we can help your business.
+                Find answers to the most common questions about our services and how we can help
+                your business.
               </p>
             </div>
             <ContactFAQ />
