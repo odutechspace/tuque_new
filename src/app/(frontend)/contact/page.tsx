@@ -14,9 +14,11 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import ContactForm from '@/components/ContactUs/ContactForm'
 import { siteConfig } from '@/config/site'
 import { ContactFAQ } from '@/components/_client/ContactFAQ'
+import { useIsMobile } from '@heroui/use-is-mobile'
 
 export default async function ContactPage() {
   const { isEnabled: isDraftMode } = await draftMode()
+  // const {is} = useIsMobile();
 
   let page: PageType | null = null
 
@@ -107,7 +109,7 @@ export default async function ContactPage() {
                   <h2 className="text-3xl font-bold mb-8">Send us a Message</h2>
 
                   <Card>
-                    <CardBody className="p-8">
+                    <CardBody className="md:p-8">
                       <ContactForm />
                     </CardBody>
                   </Card>

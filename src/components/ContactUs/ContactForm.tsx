@@ -1,8 +1,9 @@
 'use client'
 
-import { Button, Input, Textarea } from '@heroui/react'
+import { addToast, Button, Input, Textarea } from '@heroui/react'
 import React, { useState } from 'react'
 import { submitContactForm } from '@/app/service/contact-form.service'
+import { Alert } from '@heroui/alert'
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -35,6 +36,7 @@ const ContactForm = () => {
       await submitContactForm(formData)
 
       setStatusMessage('Thank you for your message! We will be in touch shortly.')
+      addToast({ title: 'Message sent Successfully', color: 'success' })
       setIsSuccess(true)
       setFormData({
         firstName: '',
@@ -106,6 +108,10 @@ const ContactForm = () => {
         variant="bordered"
         minRows={5}
       />
+
+      {statusMessage && (
+        <Alert color={isSuccess ? 'success' : 'danger'} description={statusMessage} />
+      )}
 
       <Button
         type="submit"

@@ -47,12 +47,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = () => {
   }, [pathname])
 
   return (
+    // {...(theme ? { 'data-theme': theme } : {})}
     <Navbar
-      // onMenuOpenChange={setIsMenuOpen}
-      isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
       className="relative z-20"
       maxWidth="2xl"
-      {...(theme ? { 'data-theme': theme } : {})}
     >
       <NavbarContent>
         <NavbarBrand>
