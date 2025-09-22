@@ -49,11 +49,15 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     day: 'numeric',
   });
 
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Blog Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Blog</h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Discover insights, tutorials, and stories from our team
+        </p>
       </div>
 
       {/* Featured Posts Grid */}
@@ -61,11 +65,11 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         {posts.docs?.map((post: Post) => (
           <div key={post.id} className="w-full h-full cursor-pointer">
             <div className="flex w-full overflow-hidden rounded-xl">
-              {post.thumbnail && (
+              {post.thumbnail && typeof post.thumbnail !== 'string' && (
                 <Image
-                  alt={post.thumbnail?.alt || post.title}
+                  alt={post.thumbnail.alt || post.title}
                   className="w-full h-[300px] md:h-auto object-cover rounded-x transform transition duration-300 hover:scale-110 hover:-rotate-[-4deg]"
-                  src={post?.thumbnail?.url || ''}
+                  src={post.thumbnail.url || ''}
                   width={1000}
                   height={350}
                 />
@@ -82,10 +86,11 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
                 )}
               </div>*/}
 
+              {/*@ts-ignore*/}
               {post?.tags?.length > 0 && (
                 <ul className="flex flex-row gap-2 flex-wrap mt-[25px] mb-[10px] p-0 list-none">
                   {post?.tags?.map((tag) => (
-                    <li key={tag.id} className="p-2 bg-blue-700 rounded-lg text-[#081a4e] bg-[#7977c633]">
+                    <li key={tag.id} className="p-2 bg-primary/20 rounded-lg text-[#081a4e]">
                       {tag.tag}
                     </li>
                   ))}
@@ -118,20 +123,20 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {/* Pagination */}
-      <div className="flex flex-col items-center gap-4">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
+      {/*<div className="flex flex-col items-center gap-4">*/}
+      {/*  <PageRange*/}
+      {/*    collection="posts"*/}
+      {/*    currentPage={posts.page}*/}
+      {/*    limit={12}*/}
+      {/*    totalDocs={posts.totalDocs}*/}
+      {/*  />*/}
 
-        <Pagination
-          page={posts.page}
-          totalPages={posts.totalPages}
-          href="/blog"
-        />
-      </div>
+      {/*  <Pagination*/}
+      {/*    page={posts.page}*/}
+      {/*    totalPages={posts.totalPages}*/}
+      {/*    href={"/blog"}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   )
 }

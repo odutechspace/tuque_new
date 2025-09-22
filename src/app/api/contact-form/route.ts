@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     }
 
     // Create a new document in the 'contact-forms' collection
-    await payload.create<any>({
+    await payload.create({
       collection: "contact-form",
       data: formData,
     });

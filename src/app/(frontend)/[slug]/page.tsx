@@ -41,7 +41,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   let page: PageType | null = null
 
   try {
-    page = await getCachedDocument('pages', slug)()
+    page = await getCachedDocument('pages', slug)() as PageType
   } catch (error) {
     console.warn(`Failed to fetch page for slug: ${slug}`)
   }
@@ -77,6 +77,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <Spacer y={8} />
 
       {isDraftMode && (
+        // @ts-ignore
         <LivePreviewListener serverURL={process.env.NEXT_PUBLIC_SERVER_URL || ''} />
       )}
     </article>
@@ -87,5 +88,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = 'home' } = await paramsPromise
   const page = await getCachedDocument('pages', slug)()
 
+  // @ts-ignore
   return generateMeta({ doc: page })
 }

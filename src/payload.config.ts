@@ -1,9 +1,12 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import nodemailer from 'nodemailer'
 import { fileURLToPath } from 'url'
 
 import ContactForm from './collections/ContactForm'
@@ -22,6 +25,19 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  email: nodemailerAdapter({
+    defaultFromAddress: process.env.FROM_EMAIL || 'noreply@tuque.africa',
+    defaultFromName: process.env.FROM_NAME || 'Tuque Consulting',
+    transport: nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    }),
+  }),
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -68,7 +84,24 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
+    // Cloudflare R2 Storage
+    s3Storage({
+      collections: {
+        media: {
+          prefix: 'media',
+        },
+      },
+      bucket: process.env.R2_BUCKET_NAME!,
+      config: {
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+        },
+        region: 'auto',
+        endpoint: process.env.R2_ENDPOINT,
+        forcePathStyle: true
+      },
+    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
