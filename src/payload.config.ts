@@ -91,19 +91,19 @@ export default buildConfig({
           prefix: 'media',
         },
       },
-      bucket: process.env.R2_BUCKET_NAME!,
+      bucket: process.env.R2_BUCKET_NAME || '',
       config: {
         credentials: {
-          accessKeyId: process.env.R2_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+          accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
         },
         region: 'auto',
-        endpoint: process.env.R2_ENDPOINT,
+        endpoint: process.env.R2_ENDPOINT || '',
         forcePathStyle: true
       },
     }),
   ],
-  secret: process.env.PAYLOAD_SECRET,
+  secret: process.env.PAYLOAD_SECRET || '',
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -118,7 +118,7 @@ export default buildConfig({
         // for the Vercel Cron secret to be present as an
         // Authorization header:
         const authHeader = req.headers.get('authorization')
-        return authHeader === `Bearer ${process.env.CRON_SECRET}`
+        return authHeader === `Bearer ${process.env.CRON_SECRET || ''}`
       },
     },
     tasks: [],
