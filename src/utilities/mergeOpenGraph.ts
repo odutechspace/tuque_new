@@ -6,7 +6,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'Tuque Consulting: Kenya-proud business strategists guiding SMEs and corporations with expert services in company formation, tax planning, compliance, tech & data, and more. Get empowered, get global.',
   images: [
     {
-      url: `${getServerSideURL()}/website-template-OG.webp`,
+      url: `${getServerSideURL()}/images/tuque-logo.png`,
     },
   ],
   siteName: 'Tuque Consulting',

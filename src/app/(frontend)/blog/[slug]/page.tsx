@@ -52,6 +52,7 @@ export default async function Post({ params: paramsPromise }: Args) {
     post = (await getCachedDocument('posts', slug)()) as Post
     console.log(post)
   } catch (error) {
+    console.log(error);
     console.warn(`Failed to fetch post for slug: ${slug}`)
   }
 
@@ -74,7 +75,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
           {/* Post Header */}
           <div className="w-full mb-8">
-            <div className="p-2 bg-gray-100 min-h-[500px] rounded-xl">
+            <div className="bg-gray-100 min-h-[500px] rounded-xl">
               {post.thumbnail && typeof post.thumbnail !== 'string' && (
                 <Image
                   alt={post.thumbnail?.alt || post.title}
@@ -189,8 +190,36 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
-  const post = await getCachedDocument('posts', slug)()
+  const post = await getCachedDocument('posts', slug)() as Post
 
-  // @ts-ignore
-  return generateMeta({ doc: post })
+  if (!post) {
+    return {
+      title: 'Post Not Found | Tuque Consulting',
+      description: 'The requested blog post could not be found.',
+    }
+  }
+
+  const metadata = await generateMeta({ doc: post })
+
+  // Enhanced metadata for blog posts
+  return {
+    ...metadata,
+    keywords: post.tags?.map(tag => typeof tag === 'object' ? tag.tag : '').filter(Boolean).join(', '),
+    authors: post.populatedAuthors?.map(author => ({ name: author?.name || '' })) || [{ name: 'Tuque Consulting' }],
+    category: 'Business Consulting',
+    openGraph: {
+      ...metadata.openGraph,
+      type: 'article',
+      ...(post.populatedAuthors?.length && {
+        authors: post.populatedAuthors.map(author => author?.name || ''),
+      }),
+      ...(post.tags?.length && {
+        tags: post.tags.map(tag => typeof tag === 'object' ? tag.tag : '').filter(Boolean),
+      }),
+    },
+    twitter: {
+      ...metadata.twitter,
+      card: 'summary_large_image',
+    },
+  }
 }
