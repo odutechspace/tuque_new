@@ -14,12 +14,12 @@ export const siteConfig = {
     },
     {
       name: 'About Us',
-      path: 'about',
+      path: '/about',
       icon: '',
     },
     {
       name: 'Blog',
-      path: 'blog',
+      path: '/blog',
       icon: '',
     },
     {

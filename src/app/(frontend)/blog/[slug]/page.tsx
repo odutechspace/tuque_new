@@ -201,6 +201,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   const metadata = await generateMeta({ doc: post })
 
+  console.log(metadata)
+
   // Enhanced metadata for blog posts
   return {
     ...metadata,
